@@ -1,5 +1,6 @@
 package nerds.utils;
 import edu.wpi.first.wpilibj.XboxController;
+
 public class Constants {
     //#region Controller-Buttons
         /*Remap buttons by swapping the varible name itself around*/

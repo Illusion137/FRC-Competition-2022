@@ -1,1 +1,18 @@
-To-Do => Format('[ ] ' + toDo);
+To-Do => Format('[ ] ' + toDo + ' : ' + FILENAME);
+
+[] Measurements : Constants
+[] Decide Controls : Constants
+[] Misc. : Constants
+#Driving
+[] Turning : --
+[] Moving : --
+[] Smoothing : --
+[] Min,Max,Exponental-Speed : --
+#Math
+[] 
+#Intake
+[] 
+#Shooter
+[] 
+#Arms
+[] 

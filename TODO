@@ -6,7 +6,6 @@ To-Do => Format('[ ] ' + toDo + ' : ' + FILENAME);
 #Driving
 [] Turning : --
 [] Moving : --
-[] Smoothing : --
 [] Min,Max,Exponental-Speed : --
 #Math
 [] 

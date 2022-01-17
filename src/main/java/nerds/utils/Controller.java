@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 */
 public class Controller{
 
-    public XboxController xboxController;
+    public XboxController xboxController = new XboxController(Constants.XBOXCONTROLLERPORT);
     private HashMap<Integer, Command> commandMap = new HashMap<Integer, Command>();
 
     public double controller_get_pov_dpad(int axis){
         xboxController.getPOV(axis);
         return 0;
+        
     }
 
     public int getPOV(int POV){

@@ -1,5 +1,7 @@
 package nerds.subsytems;
 
+import nerds.utils.Traceback;
+
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,6 +20,8 @@ public class DriveTrain extends SubsystemBase{
     private double drivetain_internal_get_turn_speed_left(){return 0;}
     private double drivetain_internal_get_turn_speed_right(){return 0;}
 
+    public void periodic(){}
+
     public void drivetrain_set_max_drive_speed(double maximumSpeed){ m_drive.setMaxOutput(maximumSpeed); }
 
     public void drivetrain_command_movement_drive(double speed, double rotation, boolean smoothMovement){
@@ -26,7 +30,10 @@ public class DriveTrain extends SubsystemBase{
     //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/
     public void drivetrain_command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
         //Else statment is useless but there; due to it will be unreachable code if the if statment is true
-        if(degrees >= -180 && degrees <= 180){throw new IllegalArgumentException("drivetrain_movement_turn::degrees out of range");}else{
+        if(degrees >= -180 && degrees <= 180){
+            Traceback.traceback_write("drivetrain_movement_turn::degrees out of range"); //WriteErrorToTraceBack->Execption->Force Close
+            throw new IllegalArgumentException("drivetrain_movement_turn::degrees out of range");
+        }else{
             m_drive.tankDrive(drivetain_internal_get_turn_speed_left(), drivetain_internal_get_turn_speed_right());
         }
     }

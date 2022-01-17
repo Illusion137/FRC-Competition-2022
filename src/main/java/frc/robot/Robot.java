@@ -15,19 +15,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	public DriveTrain driveTrain_;
+	public Controller m_xboxController = new Controller();
+
+	public DriveTrain driveTrain_ = new DriveTrain();
 	//
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+	public void robot_io_config(){
+		//m_xboxController.controller_bind_command_button(Constants.A, new TurnByDegrees(2, driveTrain_));
+        /*m_xboxController.controller_bind_command_button(Constants.B, );
+        m_xboxController.controller_bind_command_button(Constants.Y, );
+        m_xboxController.controller_bind_command_button(Constants.X, );
+        m_xboxController.controller_bind_command_button(Constants.LB, );
+        m_xboxController.controller_bind_command_button(Constants.RB, );
+        m_xboxController.controller_bind_command_button(Constants.LS, );
+        m_xboxController.controller_bind_command_button(Constants.RS, );
+        m_xboxController.controller_bind_command_button(Constants.NAVIGATION, );
+        m_xboxController.controller_bind_command_button(Constants.MENU, );*/
+	}
+
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		Config.init_controller();
 		m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
 		m_chooser.addOption("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);

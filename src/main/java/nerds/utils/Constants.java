@@ -14,8 +14,8 @@ public class Constants {
             public static final XboxController.Button RB = XboxController.Button.kRightBumper;
             public static final XboxController.Button LS = XboxController.Button.kLeftStick;
             public static final XboxController.Button RS = XboxController.Button.kRightStick;
-            public static final XboxController.Button START = XboxController.Button.kStart;
-            public static final XboxController.Button BACK = XboxController.Button.kBack;
+            public static final XboxController.Button MENU = XboxController.Button.kStart;
+            public static final XboxController.Button NAVIGATION = XboxController.Button.kBack;
         //Axis
             public static final XboxController.Axis LS_Y = XboxController.Axis.kLeftY;
             public static final XboxController.Axis LS_X = XboxController.Axis.kLeftX;
@@ -25,8 +25,12 @@ public class Constants {
             public static final XboxController.Axis RT = XboxController.Axis.kRightTrigger;
     //#endregion
     // Math Constants
-        float PI = 3.14159f;
+        public static final float PI = 3.14159f;
     //Robotic Constants
+        //Subsystems
+
+        //Commands
+
         //Ports
             public static final int XBOXCONTROLLERPORT = 0;
         //Speeds

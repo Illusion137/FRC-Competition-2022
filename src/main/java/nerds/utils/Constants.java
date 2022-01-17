@@ -1,4 +1,5 @@
 package nerds.utils;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Constants {
@@ -24,7 +25,7 @@ public class Constants {
             public static final XboxController.Axis RT = XboxController.Axis.kRightTrigger;
     //#endregion
     // Math Constants
-    float PI = 3.14159f;
+        float PI = 3.14159f;
     //Robotic Constants
         //Ports
             public static final int XBOXCONTROLLERPORT = 0;

@@ -1,12 +1,14 @@
 package frc.robot;
 
 import nerds.utils.*;
-import nerds.commands.*;
+import nerds.commands.JoystickDrive;
+//import nerds.commands.*;
 import nerds.subsytems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,9 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	public Controller m_xboxController = new Controller();
 
-	public DriveTrain driveTrain_ = new DriveTrain();
+	final DriveTrain driveTrain_ = new DriveTrain();
+	final JoystickDrive joystickDrive_ = new JoystickDrive(driveTrain_);
 	//
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -25,6 +27,7 @@ public class Robot extends TimedRobot {
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 	public void robot_io_config(){
+		OIController.controller_bind_command_trigger(OIController.rTTrigger, Command(joystickDrive_));
 		//m_xboxController.controller_bind_command_button(Constants.A, new TurnByDegrees(2, driveTrain_));
         /*m_xboxController.controller_bind_command_button(Constants.B, );
         m_xboxController.controller_bind_command_button(Constants.Y, );
@@ -66,7 +69,7 @@ public class Robot extends TimedRobot {
 	 *
 	 * <p>You can add additional auto modes by adding additional comparisons to the switch structure
 	 * below with additional strings. If using the SendableChooser make sure to add them to the
-	 * chooser code above as well.
+	 * chooser code above as well.	
 	 */
 	@Override
 	public void autonomousInit() {

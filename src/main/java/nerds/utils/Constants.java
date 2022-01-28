@@ -16,13 +16,15 @@ public class Constants {
             public static final XboxController.Button RS = XboxController.Button.kRightStick;
             public static final XboxController.Button MENU = XboxController.Button.kStart;
             public static final XboxController.Button NAVIGATION = XboxController.Button.kBack;
-        //Axis
+        //Trigger.Axis
             public static final XboxController.Axis LS_Y = XboxController.Axis.kLeftY;
             public static final XboxController.Axis LS_X = XboxController.Axis.kLeftX;
             public static final XboxController.Axis RS_Y = XboxController.Axis.kRightY;
             public static final XboxController.Axis RS_X = XboxController.Axis.kRightX;
             public static final XboxController.Axis LT = XboxController.Axis.kLeftTrigger;
             public static final XboxController.Axis RT = XboxController.Axis.kRightTrigger;
+        //Axis/Dpad
+            public static final int DPAD_LEFT = 90;
     //#endregion
     // Math Constants
         public static final float PI = 3.14159f;

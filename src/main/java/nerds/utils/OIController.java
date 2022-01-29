@@ -1,9 +1,7 @@
 package nerds.utils;
 
-import java.util.HashMap;
-
 import java.util.Vector;
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,17 +25,22 @@ public class OIController{
 
     public static final JoystickButton rTTrigger = new JoystickButton(controller, Constants.RT.value);
     public static final JoystickButton lTTrigger = new JoystickButton(controller, Constants.RT.value);
+    public static final JoystickButton lS_X = new JoystickButton(controller, Constants.LS_X.value);
+    public static final JoystickButton lS_Y = new JoystickButton(controller, Constants.LS_Y.value);
     public static final Vector<Command> commandVector = new Vector<Command>();
 
-    public static void controller_bind_command_button(JoystickButton jsButton, Command command_){
-        commandVector.add(command_);
-        jsButton.whenPressed(command_); 
+    public static void oicontroller_disable_command_running(){
+    
     }
-    public static void controller_bind_trigger_button(JoystickButton jsButton, Command command_){
+    public static void oicontroller_bind_command_button(JoystickButton jsButton, Command command_){
+        commandVector.add(command_);
+        jsButton.toggleWhenPressed(command_); 
+    }
+    public static void oicontroller_bind_trigger_button(JoystickButton jsButton, Command command_){
         commandVector.add(command_);
         jsButton.whileHeld(command_, true);
     }
-    public static void controller_bind_command_axis(JoystickButton jsButton, Command command_){
+    public static void oicontroller_bind_command_axis(JoystickButton jsButton, Command command_){
         commandVector.add(command_);
         jsButton.whenPressed(command_);
     }

@@ -1,14 +1,15 @@
 package frc.robot;
 
 import nerds.utils.*;
-import nerds.commands.JoystickDrive;
-//import nerds.commands.*;
+import nerds.commands.*;
 import nerds.subsytems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,27 +18,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  * project.
  */
 public class Robot extends TimedRobot {
-
 	final DriveTrain driveTrain_ = new DriveTrain();
-	final JoystickDrive joystickDrive_ = new JoystickDrive(driveTrain_);
 	//
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-	public void robot_io_config(){
-		OIController.controller_bind_command_trigger(OIController.rTTrigger, Command(joystickDrive_));
-		//m_xboxController.controller_bind_command_button(Constants.A, new TurnByDegrees(2, driveTrain_));
-        /*m_xboxController.controller_bind_command_button(Constants.B, );
-        m_xboxController.controller_bind_command_button(Constants.Y, );
-        m_xboxController.controller_bind_command_button(Constants.X, );
-        m_xboxController.controller_bind_command_button(Constants.LB, );
-        m_xboxController.controller_bind_command_button(Constants.RB, );
-        m_xboxController.controller_bind_command_button(Constants.LS, );
-        m_xboxController.controller_bind_command_button(Constants.RS, );
-        m_xboxController.controller_bind_command_button(Constants.NAVIGATION, );
-        m_xboxController.controller_bind_command_button(Constants.MENU, );*/
+	public void robot_oi_config(){
+		//OIController.oicontroller_bind_trigger_button(OIController.lS_Y, new RunCommand(joystickDrive_::execute, driveTrain_));
+		//OIController.whenPressed(new RunCommand(joystickDrive_::execute,driveTrain_));	
 	}
 
 	/**
@@ -49,6 +39,8 @@ public class Robot extends TimedRobot {
 		m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
 		m_chooser.addOption("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+
+		
 	}
 
 	/**
@@ -59,7 +51,25 @@ public class Robot extends TimedRobot {
 	 * SmartDashboard integrated updating.
 	 */
 	@Override
-	public void robotPeriodic() {}
+	public void robotPeriodic() {
+		CommandScheduler.getInstance()
+        .onCommandInitialize(
+            command ->
+                Shuffleboard.addEventMarker(
+                    "Command initialized", command.getName(), EventImportance.kNormal));
+		CommandScheduler.getInstance()
+			.onCommandInterrupt(
+				command ->
+					Shuffleboard.addEventMarker(
+						"Command interrupted", command.getName(), EventImportance.kNormal));
+		CommandScheduler.getInstance()
+			.onCommandFinish(
+				command ->
+					Shuffleboard.addEventMarker(
+						"Command finished", command.getName(), EventImportance.kNormal));
+		CommandScheduler.getInstance().run();
+
+	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select between different
@@ -94,11 +104,13 @@ public class Robot extends TimedRobot {
 
 	/** This function is called once when teleop is enabled. */
 	@Override
-	public void teleopInit() {}
+	public void teleopInit() {robot_oi_config();}
 
 	/** This function is called periodically during operator control. */
 	@Override
-	public void teleopPeriodic() {}
+	public void teleopPeriodic() {
+
+	}
 
 	/** This function is called once when the robot is disabled. */
 	@Override

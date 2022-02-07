@@ -1,13 +1,13 @@
 package nerds.subsytems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.drive.*;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.JoystickDrive;
+import nerds.utils.Constants;
 import nerds.utils.OIController;
 
 /*Spark is the sparkMax motor controllers on each side of the driveTrain that control the wheels
@@ -16,20 +16,15 @@ import nerds.utils.OIController;
 *if we have motorsOnEachSide>1 -> use MotorControllerGroups as parameters for DifferentialDrive constructor
 */
 //Note->considering using tankDrive which manually controls both sets of wheels
-public class DriveTrain extends SubsystemBase{
-    private final MotorController leftBackMotor = new PWMTalonSRX(1); //MotorController Type
-    private final MotorController leftFrontMotor = new PWMSparkMax(3); //MotorController Type
-    private final MotorController rightbackMotor = new PWMTalonFX(2);//MotorControllerThang
-    private final MotorController rightFrontMotor = new PWMSparkMax(4); //MotorController Type
+public class DriveTrain extends SubsystemBase{ 
+    private final CANSparkMax leftBackMotor = new CANSparkMax(Constants.LEFTBACKMOTORPORT, MotorType.kBrushless); //MotorController Type
+    private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.LEFTFRONTKMOTORPORT, MotorType.kBrushless); //MotorController Type
+    private final CANSparkMax rightbackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
+    private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHTFRONTMOTORPORT, MotorType.kBrushless); //MotorController Type
 
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
-    private final DifferentialDrive m_drive = new DifferentialDrive(leftBackMotor, rightFrontMotor);
-
-    private double drivetain_internal_get_turn_speed(int degrees){
-        
-        return 0;
-    }
+    private final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     public DriveTrain(){
         setDefaultCommand(new JoystickDrive(this));
@@ -42,10 +37,7 @@ public class DriveTrain extends SubsystemBase{
         m_drive.stopMotor();
     }
 
-    public void drivetrain_command_arcade_drive(){
-        System.out.println("drive");
-        m_drive.arcadeDrive(OIController.controller.getRightX(), -OIController.controller.getLeftY(), true);
-    }
+    public void drivetrain_command_arcade_drive(){ m_drive.arcadeDrive(OIController.controller.getLeftX(), -OIController.controller.getLeftY(), true);}
     //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/
     /*public void drivetrain_command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
         //Else statment is useless but there; due to it will be unreachable code if the if statment is true

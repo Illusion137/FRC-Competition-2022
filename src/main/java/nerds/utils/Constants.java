@@ -6,23 +6,23 @@ public class Constants {
     //#region Controller-Buttons
         /*Remap buttons by swapping the varible name itself around*/
         //Buttons
-            public static final XboxController.Button A = XboxController.Button.kA;
-            public static final XboxController.Button B = XboxController.Button.kB;
-            public static final XboxController.Button X = XboxController.Button.kX;
-            public static final XboxController.Button Y = XboxController.Button.kY;
-            public static final XboxController.Button LB = XboxController.Button.kLeftBumper;
-            public static final XboxController.Button RB = XboxController.Button.kRightBumper;
-            public static final XboxController.Button LS = XboxController.Button.kLeftStick;
-            public static final XboxController.Button RS = XboxController.Button.kRightStick;
-            public static final XboxController.Button MENU = XboxController.Button.kStart;
-            public static final XboxController.Button NAVIGATION = XboxController.Button.kBack;
+            public static final XboxController.Button A = XboxController.Button.kA
+            ,B = XboxController.Button.kB
+            ,X = XboxController.Button.kX
+            ,Y = XboxController.Button.kY
+            ,LB = XboxController.Button.kLeftBumper
+            ,RB = XboxController.Button.kRightBumper
+            ,LS = XboxController.Button.kLeftStick
+            ,RS = XboxController.Button.kRightStick
+            ,MENU = XboxController.Button.kStart
+            ,NAVIGATION = XboxController.Button.kBack;
         //Trigger.Axis
-            public static final XboxController.Axis LS_Y = XboxController.Axis.kLeftY;
-            public static final XboxController.Axis LS_X = XboxController.Axis.kLeftX;
-            public static final XboxController.Axis RS_Y = XboxController.Axis.kRightY;
-            public static final XboxController.Axis RS_X = XboxController.Axis.kRightX;
-            public static final XboxController.Axis LT = XboxController.Axis.kLeftTrigger;
-            public static final XboxController.Axis RT = XboxController.Axis.kRightTrigger;
+            public static final XboxController.Axis LS_Y = XboxController.Axis.kLeftY
+            ,LS_X = XboxController.Axis.kLeftX
+            ,RS_Y = XboxController.Axis.kRightY
+            ,RS_X = XboxController.Axis.kRightX
+            ,LT = XboxController.Axis.kLeftTrigger
+            ,RT = XboxController.Axis.kRightTrigger;
         //Axis/Dpad
             public static final int DPAD_LEFT = 90;
     //#endregion
@@ -35,6 +35,11 @@ public class Constants {
 
         //Ports
             public static final int XBOXCONTROLLERPORT = 0;
+            //Can
+                public static final int LEFTBACKMOTORPORT = 1
+                ,LEFTFRONTKMOTORPORT = 3
+                ,RIGHTBACKMOTORPORT = 2
+                ,RIGHTFRONTMOTORPORT = 4;
         //Speeds
             //->
     // Measurements in cm

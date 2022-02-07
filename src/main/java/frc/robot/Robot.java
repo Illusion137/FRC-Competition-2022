@@ -1,7 +1,5 @@
 package frc.robot;
 
-import nerds.utils.*;
-import nerds.commands.*;
 import nerds.subsytems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,6 +24,7 @@ public class Robot extends TimedRobot {
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 	public void robot_oi_config(){
+		driveTrain_.drivetrain_set_max_drive_speed(0.2);
 		//OIController.oicontroller_bind_trigger_button(OIController.lS_Y, new RunCommand(joystickDrive_::execute, driveTrain_));
 		//OIController.whenPressed(new RunCommand(joystickDrive_::execute,driveTrain_));	
 	}
@@ -109,7 +108,7 @@ public class Robot extends TimedRobot {
 	/** This function is called periodically during operator control. */
 	@Override
 	public void teleopPeriodic() {
-		driveTrain_.drivetrain_command_arcade_drive();
+
 	}
 
 	/** This function is called once when the robot is disabled. */

@@ -1,6 +1,7 @@
 package nerds.utils;
 
 import edu.wpi.first.wpilibj.XboxController;
+import nerds.subsytems.*;
 
 public class Constants {
     //#region Controller-Buttons
@@ -30,7 +31,7 @@ public class Constants {
         public static final float PI = 3.14159f;
     //Robotic Constants
         //Subsystems
-
+            public final static double INTAKESPEED = 0.5;
         //Commands
 
         //Ports
@@ -43,5 +44,9 @@ public class Constants {
         //Speeds
             //->
     // Measurements in cm
-        public static final int upperHubHeight = 264;
+
+    //Subsytems & Commands
+        public static final DriveTrain driveTrain_ = new DriveTrain();
+        public static final Intake intake_ = new Intake();
+        public static final IntakePistons intakePistons_ = new IntakePistons();
 }

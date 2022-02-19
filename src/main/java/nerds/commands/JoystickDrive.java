@@ -1,10 +1,11 @@
 package nerds.commands;
 
 import nerds.subsytems.DriveTrain;
+import nerds.utils.OIController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class JoystickDrive extends CommandBase{
-    private final DriveTrain m_drive;//=> Subsystem of Command
+    private DriveTrain m_drive;//=> Subsystem of Command
 
     //Why do constructors have to be public >:(
     public JoystickDrive(DriveTrain _drive){
@@ -17,13 +18,26 @@ public class JoystickDrive extends CommandBase{
     }
 
     @Override public void initialize(){
-        System.out.println("jsDriveINIT");
+        System.out.println("init");
     }
+
+    boolean stopped = true;
+
     @Override public void execute(){
-        m_drive.drivetrain_command_arcade_drive();
+        m_drive.arcade_drive();
+
+        if (OIController.controller.getLeftX() >= 0.01 && OIController.controller.getLeftY() >= 0.01) {
+           if (!stopped) {
+                System.out.println("smooth stoppin");
+                m_drive.smooth_stop();
+                stopped = true;
+           }
+        } else {
+            stopped = false;
+        }
     }
     @Override public void end(boolean interupted){
-        m_drive.drivetrain_stop();
+        System.out.println("end");
     }
     @Override public boolean isFinished() {
         return false;

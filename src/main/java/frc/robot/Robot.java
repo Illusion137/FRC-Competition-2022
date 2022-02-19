@@ -1,7 +1,15 @@
 package frc.robot;
 
+import nerds.Autonomous;
+import nerds.commands.ToggleIntake;
 import nerds.subsytems.*;
+import nerds.utils.Constants;
+import nerds.utils.OIController;
 
+import javax.print.event.PrintJobListener;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -16,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-	final DriveTrain driveTrain_ = new DriveTrain();
+	
 	//
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -24,9 +32,8 @@ public class Robot extends TimedRobot {
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 	public void robot_oi_config(){
-		driveTrain_.drivetrain_set_max_drive_speed(0.2);
+		Constants.driveTrain_.set_max_drive_speed(0.5);
 		//OIController.oicontroller_bind_trigger_button(OIController.lS_Y, new RunCommand(joystickDrive_::execute, driveTrain_));
-		//OIController.whenPressed(new RunCommand(joystickDrive_::execute,driveTrain_));	
 	}
 
 	/**
@@ -38,8 +45,6 @@ public class Robot extends TimedRobot {
 		m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
 		m_chooser.addOption("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-
-		
 	}
 
 	/**
@@ -67,7 +72,9 @@ public class Robot extends TimedRobot {
 					Shuffleboard.addEventMarker(
 						"Command finished", command.getName(), EventImportance.kNormal));
 		CommandScheduler.getInstance().run();
-
+		// if(Constants.intakePistons_.compressorThang.getPressureSwitchValue()){
+			// Constants.intakePistons_.compressorThang.disable();
+		// }
 	}
 
 	/**
@@ -82,23 +89,25 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-	m_autoSelected = m_chooser.getSelected();
-	// m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-	System.out.println("Auto selected: " + m_autoSelected);
+		m_autoSelected = m_chooser.getSelected();
+		// m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+		System.out.println("Auto selected: " + m_autoSelected);
+
+		Autonomous.rollOutBall();
 	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
 	public void autonomousPeriodic() {
-	switch (m_autoSelected) {
-		case kCustomAuto:
-		// Put custom auto code here
-		break;
-		case kDefaultAuto:
-		default:
-		// Put default auto code here
-		break;
-	}
+		switch (m_autoSelected) {
+			case kCustomAuto:
+			// Put custom auto code here
+			break;
+			case kDefaultAuto:
+			default:
+			// Put default auto code here
+			break;
+		}
 	}
 
 	/** This function is called once when teleop is enabled. */
@@ -108,7 +117,8 @@ public class Robot extends TimedRobot {
 	/** This function is called periodically during operator control. */
 	@Override
 	public void teleopPeriodic() {
-
+		System.out.println("Current:"+Constants.intakePistons_.compressorThang.getCurrent());
+		System.out.println("Pressure:"+Constants.intakePistons_.compressorThang.getPressureSwitchValue());
 	}
 
 	/** This function is called once when the robot is disabled. */

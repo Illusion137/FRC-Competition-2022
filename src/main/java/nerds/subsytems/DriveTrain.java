@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.JoystickDrive;
 import nerds.utils.Constants;
+import nerds.utils.DelayUtil;
 import nerds.utils.OIController;
 
 /*Spark is the sparkMax motor controllers on each side of the driveTrain that control the wheels
@@ -26,30 +27,42 @@ public class DriveTrain extends SubsystemBase{
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
     private final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
+    private final DelayUtil delay = new DelayUtil();
+
     public DriveTrain(){
         setDefaultCommand(new JoystickDrive(this));
     }
+
     @Override public void periodic(){}
 
-    public void drivetrain_set_max_drive_speed(double maximumSpeed){ m_drive.setMaxOutput(maximumSpeed); }
+    public void set_max_drive_speed(double maximumSpeed){ m_drive.setMaxOutput(maximumSpeed); }
 
-    public void drivetrain_stop(){
-        m_drive.stopMotor();
+    double slowDown = 0;
+    boolean set = false;
+
+    public void smooth_stop() {
+        if (!set) slowDown = rightMotors.get();
+        if (delay.hasTimeElapsed(75, true)) {
+            if (slowDown > 0) {
+                slowDown -= 0.01;
+                System.out.println(slowDown);
+            }
+        }
+        m_drive.arcadeDrive(slowDown, 0);
     }
 
-    public void drivetrain_command_arcade_drive(){ m_drive.arcadeDrive(OIController.controller.getLeftX(), -OIController.controller.getLeftY(), true);}
+    public void arcade_drive(){ m_drive.arcadeDrive(OIController.controller.getLeftX(), OIController.controller.getLeftY(), true);}
     //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/
-    /*public void drivetrain_command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
+    /*public void command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
         //Else statment is useless but there; due to it will be unreachable code if the if statment is true
         if(degrees >= -180 && degrees <= 180){
-            throw new IllegalArgumentException("drivetrain_movement_turn::degrees out of range");
+            throw new IllegalArgumentException("movement_turn::degrees out of range");
         }else{
             m_drive.tankDrive(-drivetain_internal_get_turn_speed(), drivetain_internal_get_turn_speed());
         }
     }*/
-
-    public void drivetain_auto_movement_drive(double speed, double rotation){
+    public void movement_drive(double speed, double rotation){
         //m_drive.arcadeDrive(speed, rotation, false);
     }
-    public void drivetrain_auto_movement_turn_face_object(){}
+    public void movement_turn_face_object(){}
 }

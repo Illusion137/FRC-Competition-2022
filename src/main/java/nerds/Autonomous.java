@@ -7,7 +7,7 @@ public class Autonomous {
     private static final Timer timer_ = new Timer();
     public static void rollOutBall(){
         timer_.start();
-        while(timer_.get() < 0.25){
+        if(timer_.get() < 0.25){
             Constants.intake_.toggleIntake(false);
         }
         timer_.stop();

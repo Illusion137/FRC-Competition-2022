@@ -9,14 +9,14 @@ import nerds.commands.ToggleIntakePistons;
 import nerds.utils.OIController;
 
 public class IntakePistons extends SubsystemBase {
-    //ask about parameters
+    
     private final DoubleSolenoid solenoidValves = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0, 1);
     public final Compressor compressorThang = new Compressor(PneumaticsModuleType.CTREPCM);
 
     public IntakePistons(){
         compressorThang.enableDigital();
         solenoidValves.set(Value.kForward);
-        OIController.yButton.whenPressed(new ToggleIntakePistons(this));
+		OIController.yButton.whileActiveOnce(new ToggleIntakePistons(this));
     }
 
     @Override public void periodic(){}

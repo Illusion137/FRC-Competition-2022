@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
 
 	public void robot_oi_config(){
 		Constants.driveTrain_.set_max_drive_speed(0.5);
-		//OIController.oicontroller_bind_trigger_button(OIController.lS_Y, new RunCommand(joystickDrive_::execute, driveTrain_));
 	}
 
 	/**

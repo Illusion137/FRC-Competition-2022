@@ -13,7 +13,6 @@ public class ToggleIntakePistons extends CommandBase{
 
     @Override public void initialize(){}
     @Override public void execute(){
-        System.out.println("YPress");
         m_intakePistons.togglePistons();
     }
     @Override public void end(boolean interupted){}

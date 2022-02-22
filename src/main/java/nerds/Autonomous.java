@@ -1,9 +1,6 @@
 package nerds;
 
-import java.time.chrono.ThaiBuddhistChronology;
-
 import edu.wpi.first.wpilibj.Timer;
-import nerds.commands.DriveByDistance;
 import nerds.subsytems.DriveTrain;
 import nerds.utils.Constants;
 
@@ -12,6 +9,7 @@ public class Autonomous {
     private static final Timer timer_ = new Timer();
 
     public static int stage = 0;
+    public static int distance = 0;
 
     public static void AI() {
         switch(stage) {
@@ -21,8 +19,12 @@ public class Autonomous {
                 break;
             case 1:
                 // Back the robot up
-                Constants.driveTrain_.m_drive.arcadeDrive(-0.4, 0);
-                stage++;
+                if (distance < 5) {
+                    Constants.driveTrain_.m_drive.arcadeDrive(-0.4, 0);
+                    distance++;
+                } else {
+                    stage++;
+                }
                 break;
             case 2:
                 // Turn the robot around

@@ -25,7 +25,7 @@ public class DriveTrain extends SubsystemBase{
 
     private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
     private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
-    private final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
+    public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     private final DelayUtil delay = new DelayUtil();
 
@@ -41,7 +41,9 @@ public class DriveTrain extends SubsystemBase{
     boolean set = false;
 
     public void smooth_stop() {
-        if (!set) slowDown = rightMotors.get();
+        if (!set) {
+            slowDown = rightMotors.get();
+        }
         if (delay.hasTimeElapsed(75, true)) {
             if (slowDown > 0) {
                 slowDown -= 0.01;

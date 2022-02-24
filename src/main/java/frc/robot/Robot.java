@@ -1,16 +1,8 @@
 package frc.robot;
 
 import nerds.Autonomous;
-import nerds.commands.ToggleIntake;
 import nerds.commands.ToggleIntakePistons;
-import nerds.subsytems.*;
 import nerds.utils.Constants;
-import nerds.utils.OIController;
-
-import javax.print.event.PrintJobListener;
-
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

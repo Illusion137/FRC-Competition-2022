@@ -66,5 +66,10 @@ public class DriveTrain extends SubsystemBase{
     public void movement_drive(double speed, double rotation){
         //m_drive.arcadeDrive(speed, rotation, false);
     }
+
+    public void drive(double moveSpeed, double turnSpeed) {
+        m_drive.arcadeDrive(moveSpeed, turnSpeed);
+    }
+
     public void movement_turn_face_object(){}
 }

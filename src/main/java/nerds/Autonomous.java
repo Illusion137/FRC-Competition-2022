@@ -1,7 +1,6 @@
 package nerds;
 
 import edu.wpi.first.wpilibj.Timer;
-import nerds.subsytems.DriveTrain;
 import nerds.utils.Constants;
 
 public class Autonomous {
@@ -23,15 +22,11 @@ public class Autonomous {
                     Constants.driveTrain_.m_drive.arcadeDrive(-0.4, 0);
                     distance++;
                 } else {
+                    distance = 0;
                     stage++;
                 }
                 break;
             case 2:
-                // Turn the robot around
-                Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
-                stage++;
-                break;
-            case 3:
                 break;
         }
     }

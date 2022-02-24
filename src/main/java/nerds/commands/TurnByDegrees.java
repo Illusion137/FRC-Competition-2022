@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 *I feel like these command files are useless*/
 public class TurnByDegrees extends CommandBase{
     private final DriveTrain m_driveTrain;
+    @SuppressWarnings("unused")
     private double m_degrees = 0;
     private boolean isTurningVar = false;
 

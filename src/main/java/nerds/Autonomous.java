@@ -19,9 +19,6 @@ public class Autonomous {
 
     public static void AI() {
         System.out.println(stage);
-        if (Constants.intakePistons_.solenoidValves.get() != Value.kForward) {
-            Constants.intakePistons_.solenoidValves.set(Value.kForward);
-        }
         switch(stage) {
             case 0:
                 // Shoot the ball at the start of the match

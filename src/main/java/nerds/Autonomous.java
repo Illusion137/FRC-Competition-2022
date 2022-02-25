@@ -27,14 +27,15 @@ public class Autonomous {
             case 1:
                 // Back the robot up
                 timer_.start();
+                System.out.println(timer_.get());
+                System.out.println("l:" + Constants.driveTrain_.leftMotors.get() + " r:" + Constants.driveTrain_.rightMotors.get());
                 // If it has been half a second, go to next stage, else drive the robot
                 if (timer_.hasElapsed(5)) {
-                    stage++;
+                    stage = -1;
                 } else {
-                    Constants.driveTrain_.m_drive.arcadeDrive(-0.1, 0);
+                    System.out.println("i should be driving right now");
+                    Constants.driveTrain_.m_drive.tankDrive(-0.4, -0.4);
                 }
-                break;
-            case 2:
                 break;
         }
     }

@@ -23,8 +23,8 @@ public class DriveTrain extends SubsystemBase{
     private final CANSparkMax rightbackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
     private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHTFRONTMOTORPORT, MotorType.kBrushless); //MotorController Type
 
-    private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
-    private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
+    public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
+    public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
     public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     private final DelayUtil delay = new DelayUtil();

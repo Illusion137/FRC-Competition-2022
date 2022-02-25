@@ -10,12 +10,12 @@ import nerds.utils.OIController;
 
 public class IntakePistons extends SubsystemBase {
     
-    private final DoubleSolenoid solenoidValves = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0, 1);
+    public final DoubleSolenoid solenoidValves = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0, 1);
     public final Compressor compressorThang = new Compressor(PneumaticsModuleType.CTREPCM);
 
     public IntakePistons(){
         compressorThang.enableDigital();
-        solenoidValves.set(Value.kForward);
+        solenoidValves.set(Value.kReverse);
 		OIController.yButton.whileActiveOnce(new ToggleIntakePistons(this));
     }
 

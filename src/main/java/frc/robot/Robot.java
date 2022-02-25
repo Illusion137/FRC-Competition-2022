@@ -1,9 +1,10 @@
 package frc.robot;
 
 import nerds.Autonomous;
-import nerds.commands.ToggleIntakePistons;
 import nerds.utils.Constants;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
 		m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
 		m_chooser.addOption("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		CameraServer.startAutomaticCapture();
 	}
 
 	/**
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotPeriodic() {
+		// System.out.println(Constants.intakePistons_.solenoidValves.get());
 		CommandScheduler.getInstance()
         .onCommandInitialize(
             command ->
@@ -82,9 +85,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
-		new ToggleIntakePistons(Constants.intakePistons_).execute();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
 		System.out.println("Auto selected: " + m_autoSelected);
+		Autonomous.init();
+		onEnable();
 	}
 
 	/** This function is called periodically during autonomous. */
@@ -95,13 +98,14 @@ public class Robot extends TimedRobot {
 
 	/** This function is called once when teleop is enabled. */
 	@Override
-	public void teleopInit() {robot_oi_config();}
+	public void teleopInit() {
+		onEnable();
+		robot_oi_config();
+	}
 
 	/** This function is called periodically during operator control. */
 	@Override
 	public void teleopPeriodic() {
-		System.out.println("Current:"+Constants.intakePistons_.compressorThang.getCurrent());
-		System.out.println("Pressure:"+Constants.intakePistons_.compressorThang.getPressureSwitchValue());
 	}
 
 	/** This function is called once when the robot is disabled. */
@@ -114,9 +118,17 @@ public class Robot extends TimedRobot {
 
 	/** This function is called once when test mode is enabled. */
 	@Override
-	public void testInit() {}
+	public void testInit() {
+		onEnable();
+	}
 
 	/** This function is called periodically during test mode. */
 	@Override
 	public void testPeriodic() {}
+
+	// Called when the enable button is pressed
+	public void onEnable() {
+		System.out.println("Enabled");
+		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
+	}
 }

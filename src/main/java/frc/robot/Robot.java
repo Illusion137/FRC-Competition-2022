@@ -86,14 +86,14 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
 		System.out.println("Auto selected: " + m_autoSelected);
-		Autonomous.init();
+		// Autonomous.init();
 		onEnable();
 	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
 	public void autonomousPeriodic() {
-		Autonomous.AI();
+		// Autonomous.AI();
 	}
 
 	/** This function is called once when teleop is enabled. */
@@ -128,7 +128,6 @@ public class Robot extends TimedRobot {
 
 	// Called when the enable button is pressed
 	public void onEnable() {
-		System.out.println("Enabled");
 		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
 	}
 }

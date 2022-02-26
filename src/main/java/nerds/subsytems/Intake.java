@@ -13,15 +13,16 @@ public class Intake extends SubsystemBase{
     public Intake(){
         setDefaultCommand(new ToggleIntake(this));
     }
+    
     @Override public void periodic(){}
+
     public void stop(){
         intakeMotor.stopMotor();
     }
     public void toggleIntake(boolean intakeIn){
         if(intakeIn){
             intakeMotor.set(Constants.INTAKESPEED);
-        }
-        else{
+        } else{
             intakeMotor.set(-Constants.INTAKESPEED);
         }
     }

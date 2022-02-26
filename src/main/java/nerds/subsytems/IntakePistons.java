@@ -3,7 +3,6 @@ package nerds.subsytems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.ToggleIntakePistons;
 import nerds.utils.OIController;
@@ -15,7 +14,6 @@ public class IntakePistons extends SubsystemBase {
 
     public IntakePistons(){
         compressorThang.enableDigital();
-        solenoidValves.set(Value.kReverse);
 		OIController.yButton.whileActiveOnce(new ToggleIntakePistons(this));
     }
 

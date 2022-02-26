@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private final SendableChooser<String> m_chooser = new SendableChooser<>();
+	public Mode currentMode = Mode.DISABLED;
 
 	public void robot_oi_config(){
 		Constants.driveTrain_.set_max_drive_speed(0.5);
@@ -70,6 +71,10 @@ public class Robot extends TimedRobot {
 		// if(Constants.intakePistons_.compressorThang.getPressureSwitchValue()){
 			// Constants.intakePistons_.compressorThang.disable();
 		// }
+
+		if (currentMode == Mode.AUTONOMOUS) {
+			Autonomous.AI();
+		}
 	}
 
 	/**
@@ -88,13 +93,14 @@ public class Robot extends TimedRobot {
 		System.out.println("Auto selected: " + m_autoSelected);
 		// Autonomous.init();
 		onEnable();
+		currentMode = Mode.AUTONOMOUS;
 		Autonomous.autonomous_startup();
 	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
 	public void autonomousPeriodic() {
-		Autonomous.AI();
+		
 	}
 
 	/** This function is called once when teleop is enabled. */
@@ -102,6 +108,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		onEnable();
 		robot_oi_config();
+		currentMode = Mode.TELEOP;
 	}
 
 	/** This function is called periodically during operator control. */
@@ -111,7 +118,9 @@ public class Robot extends TimedRobot {
 
 	/** This function is called once when the robot is disabled. */
 	@Override
-	public void disabledInit() {}
+	public void disabledInit() {
+		currentMode = Mode.DISABLED;
+	}
 
 	/** This function is called periodically when disabled. */
 	@Override
@@ -120,6 +129,7 @@ public class Robot extends TimedRobot {
 	/** This function is called once when test mode is enabled. */
 	@Override
 	public void testInit() {
+		currentMode = Mode.TEST;
 		onEnable();
 	}
 
@@ -130,5 +140,12 @@ public class Robot extends TimedRobot {
 	// Called when the enable button is pressed
 	public void onEnable() {
 		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
+	}
+
+	public enum Mode {
+		TELEOP,
+		AUTONOMOUS,
+		TEST,
+		DISABLED
 	}
 }

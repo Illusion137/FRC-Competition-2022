@@ -88,12 +88,13 @@ public class Robot extends TimedRobot {
 		System.out.println("Auto selected: " + m_autoSelected);
 		// Autonomous.init();
 		onEnable();
+		Autonomous.autonomous_startup();
 	}
 
 	/** This function is called periodically during autonomous. */
 	@Override
 	public void autonomousPeriodic() {
-		// Autonomous.AI();
+		Autonomous.AI();
 	}
 
 	/** This function is called once when teleop is enabled. */

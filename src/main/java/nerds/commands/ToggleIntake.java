@@ -23,9 +23,7 @@ public class ToggleIntake extends CommandBase{
             m_intake.stop();
         }
     }
-    @Override public void end(boolean interupted){
-        System.out.println("end");
-    }
+    @Override public void end(boolean interupted){}
     @Override public boolean isFinished() {
         return false;
     }

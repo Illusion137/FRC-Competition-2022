@@ -12,14 +12,8 @@ public class JoystickDrive extends CommandBase{
         m_drive = _drive;
         addRequirements(m_drive);
     }
-    
-    public void joystickdrive_drive(){
-        System.out.println("Driving");
-    }
 
-    @Override public void initialize(){
-        System.out.println("init");
-    }
+    @Override public void initialize(){}
 
     boolean stopped = true;
 
@@ -28,7 +22,6 @@ public class JoystickDrive extends CommandBase{
 
         if (OIController.controller.getLeftX() >= 0.01 && OIController.controller.getLeftY() >= 0.01) {
            if (!stopped) {
-                System.out.println("smooth stoppin");
                 m_drive.smooth_stop();
                 stopped = true;
            }
@@ -36,9 +29,7 @@ public class JoystickDrive extends CommandBase{
             stopped = false;
         }
     }
-    @Override public void end(boolean interupted){
-        System.out.println("end");
-    }
+    @Override public void end(boolean interupted){}
     @Override public boolean isFinished() {
         return false;
     }

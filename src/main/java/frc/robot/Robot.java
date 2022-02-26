@@ -91,9 +91,10 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
 		System.out.println("Auto selected: " + m_autoSelected);
-		Autonomous.init();
+		// Autonomous.init();
 		onEnable();
 		currentMode = Mode.AUTONOMOUS;
+		Autonomous.autonomous_startup();
 	}
 
 	/** This function is called periodically during autonomous. */
@@ -119,7 +120,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		currentMode = Mode.DISABLED;
-		Autonomous.INSTANCE.stage = 0;
 	}
 
 	/** This function is called periodically when disabled. */
@@ -139,9 +139,7 @@ public class Robot extends TimedRobot {
 
 	// Called when the enable button is pressed
 	public void onEnable() {
-		System.out.println("Enabled");
 		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
-		Autonomous.INSTANCE.stage = 0;
 	}
 
 	public enum Mode {

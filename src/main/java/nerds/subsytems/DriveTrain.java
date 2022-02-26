@@ -16,7 +16,6 @@ import nerds.utils.OIController;
 *Differential Drive controls both of the motors as well as a few other things
 *if we have motorsOnEachSide>1 -> use MotorControllerGroups as parameters for DifferentialDrive constructor
 */
-//Note->considering using tankDrive which manually controls both sets of wheels
 public class DriveTrain extends SubsystemBase{ 
     private final CANSparkMax leftBackMotor = new CANSparkMax(Constants.LEFTBACKMOTORPORT, MotorType.kBrushless); //MotorController Type
     private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.LEFTFRONTKMOTORPORT, MotorType.kBrushless); //MotorController Type
@@ -47,7 +46,6 @@ public class DriveTrain extends SubsystemBase{
         if (delay.hasTimeElapsed(75, true)) {
             if (slowDown > 0) {
                 slowDown -= 0.01;
-                System.out.println(slowDown);
             }
         }
         m_drive.arcadeDrive(slowDown, 0);

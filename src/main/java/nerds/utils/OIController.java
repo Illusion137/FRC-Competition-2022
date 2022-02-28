@@ -24,4 +24,22 @@ public class OIController{
     public static final JoystickButton lTTrigger = new JoystickButton(controller, Constants.RT.value);
     public static final JoystickButton lS_X = new JoystickButton(controller, Constants.LS_X.value);
     public static final JoystickButton lS_Y = new JoystickButton(controller, Constants.LS_Y.value);
+
+    public static int getDpad() {
+        return controller.getPOV();
+    }
+
+    public static enum DPadDirection {
+        UP(0), DOWN(180), LEFT(270), RIGHT(90);
+
+        private int pov;
+
+        public int get() {
+            return pov;
+        }
+
+        private DPadDirection(int pov) {
+            this.pov = pov;
+        }
+    }
 }

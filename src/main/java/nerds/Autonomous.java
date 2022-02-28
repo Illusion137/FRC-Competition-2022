@@ -46,6 +46,11 @@ public class Autonomous {
     }
 
     public static void AI() {
+
+        // VideoCamera camera = new UsbCamera();
+
+
+
         //Spin slowly till found ball
         //Center Ball in camera
         //drive forward

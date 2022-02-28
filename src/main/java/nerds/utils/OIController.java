@@ -30,7 +30,7 @@ public class OIController{
     }
 
     public static enum DPadDirection {
-        UP(0), DOWN(180), LEFT(270), RIGHT(90);
+        UP(0), DOWN(180), LEFT(270), RIGHT(90), NONE(-1);
 
         private int pov;
 

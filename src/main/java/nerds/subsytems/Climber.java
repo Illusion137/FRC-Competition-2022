@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.RaiseArm;
+import nerds.utils.Constants;
+import nerds.utils.OIController;
 
 public class Climber extends SubsystemBase {
 
@@ -14,13 +16,21 @@ public class Climber extends SubsystemBase {
         setDefaultCommand(new RaiseArm(this));
     }
 
+    @Override
+    public void periodic() {}
+
+    public void stop() {
+        motor1.stopMotor();
+        motor2.stopMotor();
+    }
+
     public void moveArm(boolean up) {
         if (up) {
-            motor1.set(0.1);
-            motor2.set(0.1);
+            motor1.set(OIController.controller.getRightTriggerAxis());
+            motor2.set(OIController.controller.getRightTriggerAxis());
         } else {
-            motor1.set(-0.1);
-            motor2.set(-0.1);
+            motor1.set(OIController.controller.getRightTriggerAxis());
+            motor2.set(OIController.controller.getRightTriggerAxis());
         }
     }
 }

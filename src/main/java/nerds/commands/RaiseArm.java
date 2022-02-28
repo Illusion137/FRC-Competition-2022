@@ -11,15 +11,25 @@ public class RaiseArm extends CommandBase {
 
     public RaiseArm(Climber climber) {
         this.climber = climber;
+        addRequirements(climber);
     }
 
     @Override
+    public void initialize() {
+    }
+    @Override
     public void execute() {
-        if (OIController.controller.getPOV() == OIController.DPadDirection.UP.get()) {
+        if (OIController.getDpad() == OIController.DPadDirection.UP.get()) {
             climber.moveArm(true);
-        } else if (OIController.getDpad() == DPadDirection.UP.get()) {
+        } else if (OIController.getDpad() == DPadDirection.DOWN.get()) {
             climber.moveArm(false);
+        } else if (OIController.getDpad() == DPadDirection.NONE.get()) {
+            climber.stop();
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
     }
 
     @Override

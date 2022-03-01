@@ -25,10 +25,17 @@ public class OIController{
     public static final JoystickButton lS_X = new JoystickButton(controller, Constants.LS_X.value);
     public static final JoystickButton lS_Y = new JoystickButton(controller, Constants.LS_Y.value);
 
+    // Dpad directions are stored in degrees
     public static int getDpad() {
         return controller.getPOV();
     }
 
+    // Check if the current dpad pov equals the given direction's pov
+    public static boolean isDpadPressed(DPadDirection dir) {
+        return getDpad() == dir.get();
+    }
+
+    // Just helpful for readability
     public static enum DPadDirection {
         UP(0), DOWN(180), LEFT(270), RIGHT(90), NONE(-1);
 

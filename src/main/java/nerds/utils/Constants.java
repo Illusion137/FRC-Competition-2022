@@ -18,16 +18,13 @@ public class Constants {
         ,RS = XboxController.Button.kRightStick
         ,MENU = XboxController.Button.kStart
         ,NAVIGATION = XboxController.Button.kBack;
-    //Trigger.Axis
+    //Axis
     public static final XboxController.Axis LS_Y = XboxController.Axis.kLeftY
         ,LS_X = XboxController.Axis.kLeftX
         ,RS_Y = XboxController.Axis.kRightY
         ,RS_X = XboxController.Axis.kRightX
         ,LT = XboxController.Axis.kLeftTrigger
         ,RT = XboxController.Axis.kRightTrigger;
-
-    //Axis/Dpad
-    public static final int DPAD_LEFT = 90;
 
     // Math Constants
     public static final float PI = 3.14159f;

@@ -2,6 +2,9 @@ package frc.robot;
 
 import nerds.Autonomous;
 import nerds.utils.Constants;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -124,7 +127,11 @@ public class Robot extends TimedRobot {
 
 	/** This function is called periodically when disabled. */
 	@Override
-	public void disabledPeriodic() {}
+	public void disabledPeriodic() {
+		// Setting this here too just to make sure that it brakes when it is disabled
+		Constants.climber.motor1.setNeutralMode(NeutralMode.Brake);
+        Constants.climber.motor2.setNeutralMode(NeutralMode.Brake);
+	}
 
 	/** This function is called once when test mode is enabled. */
 	@Override

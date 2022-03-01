@@ -1,6 +1,7 @@
 package nerds.subsytems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.*;
@@ -19,11 +20,11 @@ import nerds.utils.OIController;
 public class DriveTrain extends SubsystemBase{ 
     private final CANSparkMax leftBackMotor = new CANSparkMax(Constants.LEFTBACKMOTORPORT, MotorType.kBrushless); //MotorController Type
     private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.LEFTFRONTKMOTORPORT, MotorType.kBrushless); //MotorController Type
-    private final CANSparkMax rightbackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
+    private final CANSparkMax rightBackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
     private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHTFRONTMOTORPORT, MotorType.kBrushless); //MotorController Type
 
     public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
-    public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightbackMotor,rightFrontMotor);
+    public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightBackMotor,rightFrontMotor);
     public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     private final DelayUtil delay = new DelayUtil();
@@ -66,6 +67,10 @@ public class DriveTrain extends SubsystemBase{
     }
 
     public void drive(double moveSpeed, double turnSpeed) {
+        leftBackMotor.setIdleMode(IdleMode.kCoast);
+        leftFrontMotor.setIdleMode(IdleMode.kCoast);
+        rightBackMotor.setIdleMode(IdleMode.kCoast);
+        rightFrontMotor.setIdleMode(IdleMode.kCoast);
         m_drive.arcadeDrive(moveSpeed, turnSpeed);
     }
 

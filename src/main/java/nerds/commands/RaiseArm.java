@@ -19,11 +19,13 @@ public class RaiseArm extends CommandBase {
     }
     @Override
     public void execute() {
-        if (OIController.getDpad() == OIController.DPadDirection.UP.get()) {
+        // Get the directon of the dpad and move the arm accordingly 
+        if (OIController.isDpadPressed(DPadDirection.UP)) {
             climber.moveArm(true);
-        } else if (OIController.getDpad() == DPadDirection.DOWN.get()) {
+        } else if (OIController.isDpadPressed(DPadDirection.DOWN)) {
             climber.moveArm(false);
-        } else if (OIController.getDpad() == DPadDirection.NONE.get()) {
+        } else if (OIController.isDpadPressed(DPadDirection.NONE)) {
+            // Make sure that the motors are not running when no dpad input is pressed
             climber.stop();
         }
     }

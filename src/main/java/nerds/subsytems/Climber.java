@@ -29,8 +29,8 @@ public class Climber extends SubsystemBase {
             motor1.set(OIController.controller.getRightTriggerAxis());
             motor2.set(OIController.controller.getRightTriggerAxis());
         } else {
-            motor1.set(OIController.controller.getRightTriggerAxis());
-            motor2.set(OIController.controller.getRightTriggerAxis());
+            motor1.set(-OIController.controller.getRightTriggerAxis());
+            motor2.set(-OIController.controller.getRightTriggerAxis());
         }
     }
 }

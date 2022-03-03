@@ -4,6 +4,7 @@ import nerds.Autonomous;
 import nerds.utils.Constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -74,6 +75,11 @@ public class Robot extends TimedRobot {
 		// if(Constants.intakePistons_.compressorThang.getPressureSwitchValue()){
 			// Constants.intakePistons_.compressorThang.disable();
 		// }
+
+		Constants.driveTrain_.leftBackMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.rightBackMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.rightFrontMotor.setIdleMode(IdleMode.kCoast);
 
 		if (currentMode == Mode.AUTONOMOUS) {
 			Autonomous.AI();

@@ -1,6 +1,8 @@
 package nerds;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.wpilibj.Timer;
 import nerds.utils.Constants;
@@ -11,37 +13,35 @@ public class Autonomous {
     private static final Timer shootTimer = new Timer();
     private static final Timer driveTimer = new Timer();
 
-    public static int distance = 0;
+    public static void autonomous_startup() {
+        shootTimer.reset();
+        driveTimer.reset();
+        //Intakeout
+        shootBall();
 
-    private static boolean hasSpatBall = false;
+        //DriveBack
+        scheduleDrive();
+    }
 
-    private static Thread shootBallThread = new Thread(() -> {
+    public static void shootBall() {
         shootTimer.start();
-        while(!shootTimer.hasElapsed(0.25)) {
+        while(!shootTimer.hasElapsed(0.1)) {
             System.out.println("Spitting Out");
             Constants.intake_.toggleIntake(true);
         }
-        hasSpatBall = true;
-    });
+    }
 
-    private static Thread driveThread = new Thread(() -> {
+    public static void driveBack() {
         driveTimer.start();
-        while(!driveTimer.hasElapsed(2) && shootTimer.hasElapsed(0.25)) {
+        while(!driveTimer.hasElapsed(2)) {
             System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }
-    });
-
-    public static void autonomous_startup() {
-        //Intakeout
-        shootBallThread.run();
-
-        //DriveBack
-        driveThread.run();
     }
 
-    public void scheduleDrive() {
-        
+    public static void scheduleDrive() {
+        ScheduledExecutorService exexutor = Executors.newSingleThreadScheduledExecutor();
+        exexutor.schedule(Autonomous::driveBack, 250, TimeUnit.MILLISECONDS);
     }
 
     public static void AI() {

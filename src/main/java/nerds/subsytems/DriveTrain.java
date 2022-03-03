@@ -18,10 +18,10 @@ import nerds.utils.OIController;
 *if we have motorsOnEachSide>1 -> use MotorControllerGroups as parameters for DifferentialDrive constructor
 */
 public class DriveTrain extends SubsystemBase{ 
-    private final CANSparkMax leftBackMotor = new CANSparkMax(Constants.LEFTBACKMOTORPORT, MotorType.kBrushless); //MotorController Type
-    private final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.LEFTFRONTKMOTORPORT, MotorType.kBrushless); //MotorController Type
-    private final CANSparkMax rightBackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
-    private final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHTFRONTMOTORPORT, MotorType.kBrushless); //MotorController Type
+    public final CANSparkMax leftBackMotor = new CANSparkMax(Constants.LEFTBACKMOTORPORT, MotorType.kBrushless); //MotorController Type
+    public final CANSparkMax leftFrontMotor = new CANSparkMax(Constants.LEFTFRONTKMOTORPORT, MotorType.kBrushless); //MotorController Type
+    public final CANSparkMax rightBackMotor = new CANSparkMax(Constants.RIGHTBACKMOTORPORT, MotorType.kBrushless);//MotorControllerThang
+    public final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHTFRONTMOTORPORT, MotorType.kBrushless); //MotorController Type
 
     public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftBackMotor,leftFrontMotor);
     public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightBackMotor,rightFrontMotor);
@@ -67,10 +67,6 @@ public class DriveTrain extends SubsystemBase{
     }
 
     public void drive(double moveSpeed, double turnSpeed) {
-        leftBackMotor.setIdleMode(IdleMode.kCoast);
-        leftFrontMotor.setIdleMode(IdleMode.kCoast);
-        rightBackMotor.setIdleMode(IdleMode.kCoast);
-        rightFrontMotor.setIdleMode(IdleMode.kCoast);
         m_drive.arcadeDrive(moveSpeed, turnSpeed);
     }
 

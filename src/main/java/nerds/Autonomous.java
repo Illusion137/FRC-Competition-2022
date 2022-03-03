@@ -1,5 +1,7 @@
 package nerds;
 
+import java.util.concurrent.Executors;
+
 import edu.wpi.first.wpilibj.Timer;
 import nerds.utils.Constants;
 
@@ -24,7 +26,7 @@ public class Autonomous {
 
     private static Thread driveThread = new Thread(() -> {
         driveTimer.start();
-        while(!driveTimer.hasElapsed(2) && hasSpatBall) {
+        while(!driveTimer.hasElapsed(2) && shootTimer.hasElapsed(0.25)) {
             System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }
@@ -36,6 +38,10 @@ public class Autonomous {
 
         //DriveBack
         driveThread.run();
+    }
+
+    public void scheduleDrive() {
+        
     }
 
     public static void AI() {

@@ -6,12 +6,19 @@ import nerds.utils.Constants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -22,18 +29,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-	
-	//
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private final SendableChooser<String> m_chooser = new SendableChooser<>();
-	public Mode currentMode = Mode.DISABLED;
 
 	public void robot_oi_config(){
 		Constants.driveTrain_.set_max_drive_speed(0.5);
 	}
 
+	Thread m_visionThread;
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -41,10 +42,50 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		SmartDashboard.putNumber("Autonomous drive delay", Autonomous.waitTimeMS);
-		m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-		m_chooser.addOption("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
 		CameraServer.startAutomaticCapture();
+		m_visionThread =
+        new Thread(
+            () -> {
+              // Get the UsbCamera from CameraServer
+              UsbCamera camera = CameraServer.startAutomaticCapture();
+              // Set the resolution
+              camera.setResolution(640, 480);
+
+              // Get a CvSink. This will capture Mats from the camera
+              CvSink cvSink = CameraServer.getVideo();
+              // Setup a CvSource. This will send images back to the Dashboard
+              CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+
+              // Mats are very memory expensive. Lets reuse this Mat.
+              Mat mat = new Mat();
+
+              // This cannot be 'true'. The program will never exit if it is. This
+              // lets the robot stop this thread when restarting robot code or
+              // deploying.
+              while (!Thread.interrupted()) {
+                // Tell the CvSink to grab a frame from the camera and put it
+                // in the source mat.  If there is an error notify the output.
+                if (cvSink.grabFrame(mat) == 0) {
+                  // Send the output the error.
+                  outputStream.notifyError(cvSink.getError());
+                  // skip the rest of the current iteration
+                  continue;
+                }
+                // Put a rectangle on the image
+                Imgproc.rectangle(
+                    mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+                // Give the output stream a new image to display
+                outputStream.putFrame(mat);
+              }
+            });
+		m_visionThread.setDaemon(true);
+		m_visionThread.start();
+		//All above is copy pasta
+		Constants.driveTrain_.leftBackMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.rightBackMotor.setIdleMode(IdleMode.kCoast);
+        Constants.driveTrain_.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+		// CameraServer.startAutomaticCapture();
 	}
 
 	/**
@@ -73,18 +114,7 @@ public class Robot extends TimedRobot {
 					Shuffleboard.addEventMarker(
 						"Command finished", command.getName(), EventImportance.kNormal));
 		CommandScheduler.getInstance().run();
-		// if(Constants.intakePistons_.compressorThang.getPressureSwitchValue()){
-			// Constants.intakePistons_.compressorThang.disable();
-		// }
 
-		Constants.driveTrain_.leftBackMotor.setIdleMode(IdleMode.kCoast);
-        Constants.driveTrain_.leftFrontMotor.setIdleMode(IdleMode.kCoast);
-        Constants.driveTrain_.rightBackMotor.setIdleMode(IdleMode.kCoast);
-        Constants.driveTrain_.rightFrontMotor.setIdleMode(IdleMode.kCoast);
-
-		if (currentMode == Mode.AUTONOMOUS) {
-			Autonomous.AI();
-		}
 	}
 
 	/**
@@ -99,12 +129,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		System.out.println("bruv\nf\nn\nn\n\nn");
-		m_autoSelected = m_chooser.getSelected();
-		System.out.println("Auto selected: " + m_autoSelected);
 		// Autonomous.init();
 		onEnable();
-		currentMode = Mode.AUTONOMOUS;
 		Autonomous.autonomous_startup();
 	}
 
@@ -119,7 +145,6 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		onEnable();
 		robot_oi_config();
-		currentMode = Mode.TELEOP;
 	}
 
 	/** This function is called periodically during operator control. */
@@ -130,21 +155,20 @@ public class Robot extends TimedRobot {
 	/** This function is called once when the robot is disabled. */
 	@Override
 	public void disabledInit() {
-		currentMode = Mode.DISABLED;
+		
 	}
 
 	/** This function is called periodically when disabled. */
 	@Override
 	public void disabledPeriodic() {
 		// Setting this here too just to make sure that it brakes when it is disabled
-		Constants.climber.motor1.setNeutralMode(NeutralMode.Brake);
-        Constants.climber.motor2.setNeutralMode(NeutralMode.Brake);
+		// Constants.climber.motor1.setNeutralMode(NeutralMode.Brake);
+        // Constants.climber.motor2.setNeutralMode(NeutralMode.Brake);
 	}
 
 	/** This function is called once when test mode is enabled. */
 	@Override
 	public void testInit() {
-		currentMode = Mode.TEST;
 		onEnable();
 	}
 
@@ -155,12 +179,5 @@ public class Robot extends TimedRobot {
 	// Called when the enable button is pressed
 	public void onEnable() {
 		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
-	}
-
-	public enum Mode {
-		TELEOP,
-		AUTONOMOUS,
-		TEST,
-		DISABLED
 	}
 }

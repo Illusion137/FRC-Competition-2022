@@ -25,18 +25,24 @@ public class Autonomous {
 
     public static void shootBall() {
         shootTimer.start();
-        while(!shootTimer.hasElapsed(0.1)) {
+        long t= System.currentTimeMillis();
+        long end = t+100;
+        while(System.currentTimeMillis() < end) {
             System.out.println("Spitting Out");
             Constants.intake_.toggleIntake(true);
         }
+        shootTimer.stop();
     }
 
     public static void driveBack() {
         driveTimer.start();
-        while(!driveTimer.hasElapsed(2)) {
+        long t= System.currentTimeMillis();
+        long end = t+3000;
+        while(System.currentTimeMillis() < end) {
             System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }
+        driveTimer.stop();
     }
 
     public static void scheduleDrive() {

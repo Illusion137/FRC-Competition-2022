@@ -1,7 +1,6 @@
 package nerds.subsytems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.*;
@@ -29,8 +28,17 @@ public class DriveTrain extends SubsystemBase{
 
     private final DelayUtil delay = new DelayUtil();
 
+    private final double rampRate = 1;
     public DriveTrain(){
         setDefaultCommand(new JoystickDrive(this));
+        leftBackMotor.setClosedLoopRampRate(rampRate);
+        leftBackMotor.setOpenLoopRampRate(rampRate);
+        leftFrontMotor.setClosedLoopRampRate(rampRate);
+        leftFrontMotor.setOpenLoopRampRate(rampRate);
+        rightBackMotor.setClosedLoopRampRate(rampRate);
+        rightBackMotor.setOpenLoopRampRate(rampRate);
+        rightFrontMotor.setClosedLoopRampRate(rampRate);
+        rightFrontMotor.setOpenLoopRampRate(rampRate);
     }
 
     @Override public void periodic(){}

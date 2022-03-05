@@ -5,15 +5,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import nerds.utils.Constants;
 
 //PUT IN ROBOT.JAVA
 public class Autonomous {
     
+    public static int waitTimeMS = 250;
+
     private static final Timer shootTimer = new Timer();
     private static final Timer driveTimer = new Timer();
 
     public static void autonomous_startup() {
+        waitTimeMS = (int)SmartDashboard.getNumber("Autonomous drive delay", 250);
         shootTimer.reset();
         driveTimer.reset();
         //Intakeout
@@ -41,7 +45,7 @@ public class Autonomous {
 
     public static void scheduleDrive() {
         ScheduledExecutorService exexutor = Executors.newSingleThreadScheduledExecutor();
-        exexutor.schedule(Autonomous::driveBack, 250, TimeUnit.MILLISECONDS);
+        exexutor.schedule(Autonomous::driveBack, waitTimeMS, TimeUnit.MILLISECONDS);
     }
 
     public static void AI() {

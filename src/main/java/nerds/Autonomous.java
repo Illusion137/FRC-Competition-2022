@@ -36,7 +36,6 @@ public class Autonomous {
         shootTimer.start();
 
         while(!shootTimer.hasElapsed(0.1)) {
-            System.out.println("Spitting Out");
             Constants.intake_.toggleIntake(true);
         }
         shootTimer.stop();
@@ -46,7 +45,6 @@ public class Autonomous {
         driveTimer.start();
 
         while(!driveTimer.hasElapsed(driveTimeMS / 1000D)) {
-            System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }
         driveTimer.stop();

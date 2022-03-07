@@ -17,7 +17,6 @@ public class IntakePistons extends SubsystemBase {
     public IntakePistons() {
         compressorThang.enableDigital();
         setDefaultCommand(toggleCmd);
-		// OIController.yButton.whileActiveOnce(toggleCmd);
     }
 
     @Override public void periodic(){}

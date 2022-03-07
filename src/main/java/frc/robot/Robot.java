@@ -46,14 +46,14 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Left stick turn", true);
 		SmartDashboard.putNumber("Auto time", Autonomous.driveTimeMS);
 
-		CameraServer.startAutomaticCapture();
+		// Get the UsbCamera from CameraServer
+		UsbCamera camera = CameraServer.startAutomaticCapture();
 		m_visionThread =
         new Thread(
             () -> {
-              // Get the UsbCamera from CameraServer
-              UsbCamera camera = CameraServer.startAutomaticCapture();
+              
               // Set the resolution
-              camera.setResolution(640, 480);
+            //   camera.setResolution(640, 480);
 
               // Get a CvSink. This will capture Mats from the camera
               CvSink cvSink = CameraServer.getVideo();
@@ -62,11 +62,28 @@ public class Robot extends TimedRobot {
 
               // Mats are very memory expensive. Lets reuse this Mat.
               Mat mat = new Mat();
+			  Mat gray = new Mat();
+			  Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
+			  Imgproc.medianBlur(gray, gray, 5);
+			  Mat circles = new Mat();
 
               // This cannot be 'true'. The program will never exit if it is. This
               // lets the robot stop this thread when restarting robot code or
               // deploying.
               while (!Thread.interrupted()) {
+				Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+				(double)gray.rows()/16, // change this value to detect circles with different distances to each other
+				100.0, 30.0, 1, 30); // change the last two parameters
+					// (min_radius & max_radius) to detect larger circles
+				for (int x = 0; x < circles.cols(); x++) {
+					double[] c = circles.get(0, x);
+					Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+					// circle center
+					Imgproc.circle(mat, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+					// circle outline
+					int radius = (int) Math.round(c[2]);
+					Imgproc.circle(mat, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+				}
                 // Tell the CvSink to grab a frame from the camera and put it
                 // in the source mat.  If there is an error notify the output.
                 if (cvSink.grabFrame(mat) == 0) {
@@ -78,7 +95,7 @@ public class Robot extends TimedRobot {
                 // Put a rectangle on the image
                 // Imgproc.rectangle(mat, new Point(0, 100), new Point(400, 400), new Scalar(255, 255, 255), Imgproc.FILLED);
                 // Give the output stream a new image to display
-                outputStream.putFrame(mat);
+                outputStream.putFrame(circles);
               }
             });
 		m_visionThread.setDaemon(true);
@@ -88,7 +105,6 @@ public class Robot extends TimedRobot {
         Constants.driveTrain_.leftFrontMotor.setIdleMode(IdleMode.kCoast);
         Constants.driveTrain_.rightBackMotor.setIdleMode(IdleMode.kCoast);
         Constants.driveTrain_.rightFrontMotor.setIdleMode(IdleMode.kCoast);
-		// CameraServer.startAutomaticCapture();
 	}
 
 	/**

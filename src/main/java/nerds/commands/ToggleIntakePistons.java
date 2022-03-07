@@ -15,7 +15,6 @@ public class ToggleIntakePistons extends CommandBase{
 
     @Override public void initialize(){}
     @Override public void execute(){
-        System.out.println(hasPressed);
         if(OIController.yButton.get()){
             if (!hasPressed) {
                 m_intakePistons.togglePistons();

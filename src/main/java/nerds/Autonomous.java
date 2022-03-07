@@ -13,6 +13,7 @@ public class Autonomous {
     
     public static int waitTimeMS = 250;
     public static double speed = 0.5;
+    public static int driveTimeMS = 4000;
 
     private static final Timer shootTimer = new Timer();
     private static final Timer driveTimer = new Timer();
@@ -20,6 +21,7 @@ public class Autonomous {
     public static void autonomous_startup() {
         waitTimeMS = (int)SmartDashboard.getNumber("Auto delay", 250);
         speed = SmartDashboard.getNumber("Auto speed", 0.5);
+        driveTimeMS = (int)SmartDashboard.getNumber("Auto time", 4000);
 
         shootTimer.reset();
         driveTimer.reset();
@@ -43,7 +45,7 @@ public class Autonomous {
     public static void driveBack() {
         driveTimer.start();
 
-        while(!driveTimer.hasElapsed(4.1)) {
+        while(!driveTimer.hasElapsed(driveTimeMS / 1000D)) {
             System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }

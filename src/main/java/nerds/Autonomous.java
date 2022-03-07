@@ -12,12 +12,15 @@ import nerds.utils.Constants;
 public class Autonomous {
     
     public static int waitTimeMS = 250;
+    public static double speed = 0.5;
 
     private static final Timer shootTimer = new Timer();
     private static final Timer driveTimer = new Timer();
 
     public static void autonomous_startup() {
-        waitTimeMS = (int)SmartDashboard.getNumber("Autonomous drive delay", 250);
+        waitTimeMS = (int)SmartDashboard.getNumber("Auto delay", 250);
+        speed = SmartDashboard.getNumber("Auto speed", 0.5);
+
         shootTimer.reset();
         driveTimer.reset();
         //Intakeout
@@ -29,9 +32,8 @@ public class Autonomous {
 
     public static void shootBall() {
         shootTimer.start();
-        long t= System.currentTimeMillis();
-        long end = t+100;
-        while(System.currentTimeMillis() < end) {
+
+        while(!shootTimer.hasElapsed(0.1)) {
             System.out.println("Spitting Out");
             Constants.intake_.toggleIntake(true);
         }
@@ -40,9 +42,8 @@ public class Autonomous {
 
     public static void driveBack() {
         driveTimer.start();
-        long t= System.currentTimeMillis();
-        long end = t+3000;
-        while(System.currentTimeMillis() < end) {
+
+        while(!driveTimer.hasElapsed(4.1)) {
             System.out.println("Driving");
             Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
         }

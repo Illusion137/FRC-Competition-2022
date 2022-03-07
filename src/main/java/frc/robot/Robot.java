@@ -41,7 +41,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		SmartDashboard.putNumber("Autonomous drive delay", Autonomous.waitTimeMS);
+		SmartDashboard.putNumber("Auto delay", Autonomous.waitTimeMS);
+		SmartDashboard.putNumber("Auto speed", Autonomous.speed);
+		SmartDashboard.putBoolean("Left stick turn", true);
+
 		CameraServer.startAutomaticCapture();
 		m_visionThread =
         new Thread(
@@ -73,7 +76,7 @@ public class Robot extends TimedRobot {
                 }
                 // Put a rectangle on the image
                 Imgproc.rectangle(
-                    mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+                    mat, new Point(0, 100), new Point(400, 400), new Scalar(255, 255, 255), Imgproc.FILLED);
                 // Give the output stream a new image to display
                 outputStream.putFrame(mat);
               }

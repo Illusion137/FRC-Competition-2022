@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase {
         motor1.setNeutralMode(NeutralMode.Brake);
         motor2.setNeutralMode(NeutralMode.Brake);
         
-        if (up) {
+        if (!up) {
             // Set the motors to go forward at the speed of the axis that the right trigger is held
             climbeGroup.set(OIController.controller.getRightTriggerAxis());
         } else {

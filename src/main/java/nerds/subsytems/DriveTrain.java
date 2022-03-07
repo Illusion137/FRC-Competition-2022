@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.JoystickDrive;
 import nerds.utils.Constants;
@@ -60,7 +61,12 @@ public class DriveTrain extends SubsystemBase{
         m_drive.arcadeDrive(slowDown, 0);
     }
 
-    public void arcade_drive(){ m_drive.arcadeDrive(OIController.controller.getLeftX(), OIController.controller.getLeftY(), true);}
+    public boolean leftStickTurn;
+
+    public void arcade_drive(){ 
+        leftStickTurn = SmartDashboard.getBoolean("Left stick turn", true);
+        m_drive.arcadeDrive(leftStickTurn ? OIController.controller.getLeftX() : OIController.controller.getRightX(), OIController.controller.getLeftY(), true);
+    }
     //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/
     /*public void command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
         //Else statment is useless but there; due to it will be unreachable code if the if statment is true

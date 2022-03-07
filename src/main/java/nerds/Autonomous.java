@@ -67,13 +67,4 @@ public class Autonomous {
         /*
          */
     }
-    // public static void runForTime(Callable func, long runTime){
-    //     long currentTime = System.currentTimeMillis();
-    //     long endTime = currentTime+runTime;
-    //     while(System.currentTimeMillis() < endTime) {
-    //         try{
-    //             func.call();
-    //         }
-    //     }
-    // }
 }

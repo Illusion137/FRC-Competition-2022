@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Auto speed", Autonomous.speed);
 		SmartDashboard.putBoolean("Left stick turn", true);
 		SmartDashboard.putNumber("Auto time", Autonomous.driveTimeMS);
+		SmartDashboard.putNumber("Ramp rate", Constants.driveTrain_.rampRate);
 
 		// Get the UsbCamera from CameraServer
 		UsbCamera camera = CameraServer.startAutomaticCapture();

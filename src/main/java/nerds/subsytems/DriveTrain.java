@@ -29,17 +29,10 @@ public class DriveTrain extends SubsystemBase{
 
     private final DelayUtil delay = new DelayUtil();
 
-    private final double rampRate = 1;
+    public double rampRate = 1;
+    
     public DriveTrain(){
         setDefaultCommand(new JoystickDrive(this));
-        leftBackMotor.setClosedLoopRampRate(rampRate);
-        leftBackMotor.setOpenLoopRampRate(rampRate);
-        leftFrontMotor.setClosedLoopRampRate(rampRate);
-        leftFrontMotor.setOpenLoopRampRate(rampRate);
-        rightBackMotor.setClosedLoopRampRate(rampRate);
-        rightBackMotor.setOpenLoopRampRate(rampRate);
-        rightFrontMotor.setClosedLoopRampRate(rampRate);
-        rightFrontMotor.setOpenLoopRampRate(rampRate);
     }
 
     @Override public void periodic(){}
@@ -65,6 +58,15 @@ public class DriveTrain extends SubsystemBase{
 
     public void arcade_drive(){ 
         leftStickTurn = SmartDashboard.getBoolean("Left stick turn", true);
+        rampRate = SmartDashboard.getNumber("Ramp rate", 1);
+        leftBackMotor.setClosedLoopRampRate(rampRate);
+        leftBackMotor.setOpenLoopRampRate(rampRate);
+        leftFrontMotor.setClosedLoopRampRate(rampRate);
+        leftFrontMotor.setOpenLoopRampRate(rampRate);
+        rightBackMotor.setClosedLoopRampRate(rampRate);
+        rightBackMotor.setOpenLoopRampRate(rampRate);
+        rightFrontMotor.setClosedLoopRampRate(rampRate);
+        rightFrontMotor.setOpenLoopRampRate(rampRate);
         m_drive.arcadeDrive(leftStickTurn ? OIController.controller.getLeftX() : OIController.controller.getRightX(), OIController.controller.getLeftY(), true);
     }
     //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/

@@ -15,8 +15,9 @@ public class IntakePistons extends SubsystemBase {
     private ToggleIntakePistons toggleCmd = new ToggleIntakePistons(this);
 
     public IntakePistons() {
-        compressorThang.enableDigital();  
-		OIController.yButton.whileActiveOnce(toggleCmd);
+        compressorThang.enableDigital();
+        setDefaultCommand(toggleCmd);
+		// OIController.yButton.whileActiveOnce(toggleCmd);
     }
 
     @Override public void periodic(){}

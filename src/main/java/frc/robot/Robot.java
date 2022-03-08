@@ -48,36 +48,35 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Ramp rate", Constants.driveTrain_.rampRate);
 
 		// Get the UsbCamera from CameraServer
-		UsbCamera camera = CameraServer.startAutomaticCapture();
 		m_visionThread =
         new Thread(
-            () -> {
-              
-              // Set the resolution
-            //   camera.setResolution(640, 480);
+			() -> {
+				
+				// Set the resolution
+				UsbCamera camera = CameraServer.startAutomaticCapture();
+				camera.setResolution(640, 480);
 
               // Get a CvSink. This will capture Mats from the camera
               CvSink cvSink = CameraServer.getVideo();
               // Setup a CvSource. This will send images back to the Dashboard
-              CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+              CvSource outputStream = CameraServer.putVideo("Circles", 640, 480);
 
               // Mats are very memory expensive. Lets reuse this Mat.
               Mat mat = new Mat();
 			  Mat gray = new Mat();
 			  Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
 			  Imgproc.medianBlur(gray, gray, 5);
-			  Mat circles = new Mat();
 
               // This cannot be 'true'. The program will never exit if it is. This
               // lets the robot stop this thread when restarting robot code or
               // deploying.
               while (!Thread.interrupted()) {
-				Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+				Imgproc.HoughCircles(gray, mat, Imgproc.HOUGH_GRADIENT, 1.0,
 				(double)gray.rows()/16, // change this value to detect circles with different distances to each other
 				100.0, 30.0, 1, 30); // change the last two parameters
 					// (min_radius & max_radius) to detect larger circles
-				for (int x = 0; x < circles.cols(); x++) {
-					double[] c = circles.get(0, x);
+				for (int x = 0; x < mat.cols(); x++) {
+					double[] c = mat.get(0, x);
 					Point center = new Point(Math.round(c[0]), Math.round(c[1]));
 					// circle center
 					Imgproc.circle(mat, center, 1, new Scalar(0,100,100), 3, 8, 0 );
@@ -96,7 +95,7 @@ public class Robot extends TimedRobot {
                 // Put a rectangle on the image
                 // Imgproc.rectangle(mat, new Point(0, 100), new Point(400, 400), new Scalar(255, 255, 255), Imgproc.FILLED);
                 // Give the output stream a new image to display
-                outputStream.putFrame(circles);
+                outputStream.putFrame(mat);
               }
             });
 		m_visionThread.setDaemon(true);

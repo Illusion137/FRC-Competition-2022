@@ -29,7 +29,7 @@ public class DriveTrain extends SubsystemBase{
 
     private final DelayUtil delay = new DelayUtil();
 
-    public double rampRate = 1;
+    public double rampRate = 0.5;
     
     public DriveTrain(){
         setDefaultCommand(new JoystickDrive(this));
@@ -58,7 +58,7 @@ public class DriveTrain extends SubsystemBase{
 
     public void arcade_drive(){ 
         leftStickTurn = SmartDashboard.getBoolean("Left stick turn", true);
-        rampRate = SmartDashboard.getNumber("Ramp rate", 1);
+        rampRate = SmartDashboard.getNumber("Ramp rate", 0.5);
         leftBackMotor.setClosedLoopRampRate(rampRate);
         leftBackMotor.setOpenLoopRampRate(rampRate);
         leftFrontMotor.setClosedLoopRampRate(rampRate);

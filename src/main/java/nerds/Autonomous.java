@@ -30,6 +30,8 @@ public class Autonomous {
 
         //DriveBack
         scheduleDrive();
+        shootTimer.stop();
+        driveTimer.stop();
     }
 
     public static void shootBall() {
@@ -38,21 +40,23 @@ public class Autonomous {
         while(!shootTimer.hasElapsed(0.1)) {
             Constants.intake_.toggleIntake(true);
         }
+
         shootTimer.stop();
     }
 
     public static void driveBack() {
+        shootTimer.stop();
         driveTimer.start();
 
         while(!driveTimer.hasElapsed(driveTimeMS / 1000D)) {
-            Constants.driveTrain_.m_drive.arcadeDrive(0, 0.5);
+            Constants.driveTrain_.m_drive.arcadeDrive(0, speed);
         }
         driveTimer.stop();
     }
 
     public static void scheduleDrive() {
-        ScheduledExecutorService exexutor = Executors.newSingleThreadScheduledExecutor();
-        exexutor.schedule(Autonomous::driveBack, waitTimeMS, TimeUnit.MILLISECONDS);
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.schedule(Autonomous::driveBack, waitTimeMS, TimeUnit.MILLISECONDS);
     }
 
     public static void AI() {

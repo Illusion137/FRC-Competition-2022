@@ -37,7 +37,9 @@ public class DriveTrain extends SubsystemBase{
 
     @Override public void periodic(){}
 
-    public void set_max_drive_speed(double maximumSpeed){ m_drive.setMaxOutput(maximumSpeed); }
+    public void set_max_drive_speed(double maximumSpeed){ 
+        m_drive.setMaxOutput(maximumSpeed); 
+    }
 
     double slowDown = 0;
     boolean set = false;
@@ -69,22 +71,8 @@ public class DriveTrain extends SubsystemBase{
         rightFrontMotor.setOpenLoopRampRate(rampRate);
         m_drive.arcadeDrive(leftStickTurn ? OIController.controller.getLeftX() : OIController.controller.getRightX(), OIController.controller.getLeftY(), true);
     }
-    //*degrees>0=>right :: degrees<0=>left; (degrees >= -180 && degrees <= 180)*/
-    /*public void command_movement_turn_by_degrees(double degrees) throws IllegalArgumentException{
-        //Else statment is useless but there; due to it will be unreachable code if the if statment is true
-        if(degrees >= -180 && degrees <= 180){
-            throw new IllegalArgumentException("movement_turn::degrees out of range");
-        }else{
-            m_drive.tankDrive(-drivetain_internal_get_turn_speed(), drivetain_internal_get_turn_speed());
-        }
-    }*/
-    public void movement_drive(double speed, double rotation){
-        //m_drive.arcadeDrive(speed, rotation, false);
-    }
 
     public void drive(double moveSpeed, double turnSpeed) {
         m_drive.arcadeDrive(moveSpeed, turnSpeed);
     }
-
-    public void movement_turn_face_object(){}
 }

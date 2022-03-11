@@ -3,18 +3,9 @@ package frc.robot;
 import nerds.Autonomous;
 import nerds.utils.Constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
@@ -34,74 +25,23 @@ public class Robot extends TimedRobot {
 		Constants.driveTrain_.set_max_drive_speed(0.7);
 	}
 
-	Thread m_visionThread;
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		SmartDashboard.putBoolean("Auto disabled", Autonomous.autonomousDisabled);
+		SmartDashboard.putBoolean("Shoot disabled", Autonomous.shootDisabled);
+		SmartDashboard.putBoolean("Drive disabled", Autonomous.driveDisabled);
+
 		SmartDashboard.putNumber("Auto delay", Autonomous.waitTimeMS);
 		SmartDashboard.putNumber("Auto speed", Autonomous.speed);
 		SmartDashboard.putBoolean("Left stick turn", true);
 		SmartDashboard.putNumber("Auto time", Autonomous.driveTimeMS);
 		SmartDashboard.putNumber("Ramp rate", Constants.driveTrain_.rampRate);
 
-		CameraServer.startAutomaticCapture();
-		// Get the UsbCamera from CameraServer
-		// m_visionThread =
-        // new Thread(
-		// 	() -> {
-				
-		// 		// Set the resolution
-		// 		UsbCamera camera = CameraServer.startAutomaticCapture();
-		// 		camera.setResolution(640, 480);
-
-        //       // Get a CvSink. This will capture Mats from the camera
-        //       CvSink cvSink = CameraServer.getVideo();
-        //       // Setup a CvSource. This will send images back to the Dashboard
-        //       CvSource outputStream = CameraServer.putVideo("Circles", 640, 480);
-
-        //       // Mats are very memory expensive. Lets reuse this Mat.
-        //       Mat mat = new Mat();
-		// 	  Mat gray = new Mat();
-		// 	  Imgproc.cvtColor(mat, gray, Imgproc.COLOR_BGR2GRAY);
-		// 	  Imgproc.medianBlur(gray, gray, 5);
-
-        //       // This cannot be 'true'. The program will never exit if it is. This
-        //       // lets the robot stop this thread when restarting robot code or
-        //       // deploying.
-        //       while (!Thread.interrupted()) {
-		// 		Imgproc.HoughCircles(gray, mat, Imgproc.HOUGH_GRADIENT, 1.0,
-		// 		(double)gray.rows()/16, // change this value to detect circles with different distances to each other
-		// 		100.0, 30.0, 1, 30); // change the last two parameters
-		// 			// (min_radius & max_radius) to detect larger circles
-		// 		for (int x = 0; x < mat.cols(); x++) {
-		// 			double[] c = mat.get(0, x);
-		// 			Point center = new Point(Math.round(c[0]), Math.round(c[1]));
-		// 			// circle center
-		// 			Imgproc.circle(mat, center, 1, new Scalar(0,100,100), 3, 8, 0 );
-		// 			// circle outline
-		// 			int radius = (int) Math.round(c[2]);
-		// 			Imgproc.circle(mat, center, radius, new Scalar(255,0,255), 3, 8, 0 );
-		// 		}
-        //         // Tell the CvSink to grab a frame from the camera and put it
-        //         // in the source mat.  If there is an error notify the output.
-        //         if (cvSink.grabFrame(mat) == 0) {
-        //           // Send the output the error.
-        //           outputStream.notifyError(cvSink.getError());
-        //           // skip the rest of the current iteration
-        //           continue;
-        //         }
-        //         // Put a rectangle on the image
-        //         // Imgproc.rectangle(mat, new Point(0, 100), new Point(400, 400), new Scalar(255, 255, 255), Imgproc.FILLED);
-        //         // Give the output stream a new image to display
-        //         outputStream.putFrame(mat);
-        //       }
-        //     });
-		// m_visionThread.setDaemon(true);
-		// m_visionThread.start();
-		//All above is copy pasta
+		// CameraServer.startAutomaticCapture();
 		Constants.driveTrain_.leftBackMotor.setIdleMode(IdleMode.kCoast);
         Constants.driveTrain_.leftFrontMotor.setIdleMode(IdleMode.kCoast);
         Constants.driveTrain_.rightBackMotor.setIdleMode(IdleMode.kCoast);
@@ -117,22 +57,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotPeriodic() {
-		// System.out.println(Constants.intakePistons_.solenoidValves.get());
-		CommandScheduler.getInstance()
-        .onCommandInitialize(
-            command ->
-                Shuffleboard.addEventMarker(
-                    "Command initialized", command.getName(), EventImportance.kNormal));
-		CommandScheduler.getInstance()
-			.onCommandInterrupt(
-				command ->
-					Shuffleboard.addEventMarker(
-						"Command interrupted", command.getName(), EventImportance.kNormal));
-		CommandScheduler.getInstance()
-			.onCommandFinish(
-				command ->
-					Shuffleboard.addEventMarker(
-						"Command finished", command.getName(), EventImportance.kNormal));
 		CommandScheduler.getInstance().run();
 
 	}

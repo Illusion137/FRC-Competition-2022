@@ -25,9 +25,6 @@ public class Constants {
         ,RS_X = XboxController.Axis.kRightX
         ,LT = XboxController.Axis.kLeftTrigger
         ,RT = XboxController.Axis.kRightTrigger;
-
-    // Math Constants
-    public static final float PI = 3.14159f;
     
     /* Robotic Constants */
     

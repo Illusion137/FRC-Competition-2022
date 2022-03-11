@@ -11,6 +11,9 @@ import nerds.utils.Constants;
 //PUT IN ROBOT.JAVA
 public class Autonomous {
     
+    public static boolean autonomousDisabled = false;
+    public static boolean shootDisabled = false;
+    public static boolean driveDisabled = false;
     public static int waitTimeMS = 250;
     public static double speed = 0.5;
     public static int driveTimeMS = 4000;
@@ -19,44 +22,57 @@ public class Autonomous {
     private static final Timer driveTimer = new Timer();
 
     public static void autonomous_startup() {
+        autonomousDisabled = SmartDashboard.getBoolean("Auto disabled", false);
+        shootDisabled = SmartDashboard.getBoolean("Shoot disabled", false);
+        driveDisabled = SmartDashboard.getBoolean("Drive disabled", false);
+
         waitTimeMS = (int)SmartDashboard.getNumber("Auto delay", 250);
         speed = SmartDashboard.getNumber("Auto speed", 0.5);
         driveTimeMS = (int)SmartDashboard.getNumber("Auto time", 4000);
 
         shootTimer.reset();
         driveTimer.reset();
-        //Intakeout
-        shootBall();
 
-        //DriveBack
-        scheduleDrive();
+        if (!autonomousDisabled) {
+            //Intakeout
+            shootBall();
+
+            //DriveBack
+            scheduleDrive();
+        }
         shootTimer.stop();
         driveTimer.stop();
     }
 
     public static void shootBall() {
-        shootTimer.start();
+        if (!shootDisabled) {
+            shootTimer.start();
 
-        while(!shootTimer.hasElapsed(0.1)) {
-            Constants.intake_.toggleIntake(true);
+            while(!shootTimer.hasElapsed(0.1)) {
+                Constants.intake_.toggleIntake(true);
+            }
+
+            shootTimer.stop();
         }
-
-        shootTimer.stop();
     }
 
     public static void driveBack() {
-        shootTimer.stop();
-        driveTimer.start();
+        if (!driveDisabled) {
+            shootTimer.stop();
+            driveTimer.start();
 
-        while(!driveTimer.hasElapsed(driveTimeMS / 1000D)) {
-            Constants.driveTrain_.m_drive.arcadeDrive(0, speed);
+            while(!driveTimer.hasElapsed(driveTimeMS / 1000D)) {
+                Constants.driveTrain_.m_drive.arcadeDrive(0, speed);
+            }
+            driveTimer.stop();
         }
-        driveTimer.stop();
     }
 
     public static void scheduleDrive() {
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(Autonomous::driveBack, waitTimeMS, TimeUnit.MILLISECONDS);
+        if (!driveDisabled) {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.schedule(Autonomous::driveBack, waitTimeMS, TimeUnit.MILLISECONDS);
+        }
     }
 
     public static void AI() {

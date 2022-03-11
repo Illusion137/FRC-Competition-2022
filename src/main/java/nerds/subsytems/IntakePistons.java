@@ -5,18 +5,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import nerds.commands.ToggleIntakePistons;
-import nerds.utils.OIController;
 
 public class IntakePistons extends SubsystemBase {
     
     public final DoubleSolenoid solenoidValves = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0, 1);
     public final Compressor compressorThang = new Compressor(PneumaticsModuleType.CTREPCM);
 
-    private ToggleIntakePistons toggleCmd = new ToggleIntakePistons(this);
-
     public IntakePistons() {
         compressorThang.enableDigital();
-        setDefaultCommand(toggleCmd);
+        setDefaultCommand(new ToggleIntakePistons(this));
     }
 
     @Override public void periodic(){}

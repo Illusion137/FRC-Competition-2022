@@ -21,10 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-	public void robot_oi_config(){
-		Constants.driveTrain_.set_max_drive_speed(0.7);
-	}
-
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -58,7 +54,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
-
 	}
 
 	/**
@@ -88,33 +83,23 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		onEnable();
-		robot_oi_config();
 	}
 
 	/** This function is called periodically during operator control. */
 	@Override
-	public void teleopPeriodic() {
-	}
+	public void teleopPeriodic() {}
 
 	/** This function is called once when the robot is disabled. */
 	@Override
-	public void disabledInit() {
-		
-	}
+	public void disabledInit() {}
 
 	/** This function is called periodically when disabled. */
 	@Override
-	public void disabledPeriodic() {
-		// Setting this here too just to make sure that it brakes when it is disabled
-		// Constants.climber.motor1.setNeutralMode(NeutralMode.Brake);
-        // Constants.climber.motor2.setNeutralMode(NeutralMode.Brake);
-	}
+	public void disabledPeriodic() {}
 
 	/** This function is called once when test mode is enabled. */
 	@Override
-	public void testInit() {
-		onEnable();
-	}
+	public void testInit() {}
 
 	/** This function is called periodically during test mode. */
 	@Override
@@ -122,6 +107,7 @@ public class Robot extends TimedRobot {
 
 	// Called when the enable button is pressed
 	public void onEnable() {
+		Constants.driveTrain_.set_max_drive_speed(0.7);
 		Constants.intakePistons_.solenoidValves.set(Value.kReverse);
 	}
 }

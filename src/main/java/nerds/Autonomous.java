@@ -75,16 +75,16 @@ public class Autonomous {
         }
     }
 
-    public static void AI() {
-        //Spin slowly till found ball
-        //Center Ball in camera
-        //drive forward
-        //intake
-        //turn back around
-        //center to middle
-        //drive forwards
-        //spit ball out
-        /*
-         */
-    }
+    // public static void AI() {
+    //     //Spin slowly till found ball
+    //     //Center Ball in camera
+    //     //drive forward
+    //     //intake
+    //     //turn back around
+    //     //center to middle
+    //     //drive forwards
+    //     //spit ball out
+    //     /*
+    //      */
+    // }
 }

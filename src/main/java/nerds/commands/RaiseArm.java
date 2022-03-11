@@ -15,8 +15,7 @@ public class RaiseArm extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
     @Override
     public void execute() {
         // Get the directon of the dpad and move the arm accordingly 
@@ -31,8 +30,7 @@ public class RaiseArm extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {

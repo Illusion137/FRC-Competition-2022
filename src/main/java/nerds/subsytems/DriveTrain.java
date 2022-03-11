@@ -41,21 +41,6 @@ public class DriveTrain extends SubsystemBase{
         m_drive.setMaxOutput(maximumSpeed); 
     }
 
-    double slowDown = 0;
-    boolean set = false;
-
-    public void smooth_stop() {
-        if (!set) {
-            slowDown = rightMotors.get();
-        }
-        if (delay.hasTimeElapsed(75, true)) {
-            if (slowDown > 0) {
-                slowDown -= 0.01;
-            }
-        }
-        m_drive.arcadeDrive(slowDown, 0);
-    }
-
     public boolean leftStickTurn;
 
     public void arcade_drive(){ 
